@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag and Drop KIOSK</title>
+    <style>
+        .menu-item {
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #000;
+            display: inline-block;
+            cursor: grab;
+            text-align: center;
+        }
+        .menu-item img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .drop-area {
+            width: 300px;
+            height: 300px;
+            border: 2px dashed #000;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-item" draggable="true" id="item1">
+        <img src="path/to/image1.jpg" alt="Item 1">
+        <p>Item 1</p>
+    </div>
+    <div class="menu-item" draggable="true" id="item2">
+        <img src="path/to/image2.jpg" alt="Item 2">
+        <p>Item 2</p>
+    </div>
+    <div class="menu-item" draggable="true" id="item3">
+        <img src="path/to/image3.jpg" alt="Item 3">
+        <p>Item 3</p>
+    </div>
+
+    <div class="drop-area" id="dropArea"></div>
+
+    <script>
+        const items = document.querySelectorAll('.menu-item');
+        const dropArea = document.getElementById('dropArea');
+
+        items.forEach(item => {
+            item.addEventListener('dragstart', dragStart);
+        });
+
+        dropArea.addEventListener('dragover', dragOver);
+        dropArea.addEventListener('drop', drop);
+
+        function dragStart(e) {
+            e.dataTransfer.setData('text/plain', e.target.id);
+        }
+
+        function dragOver(e) {
+            e.preventDefault();
+        }
+
+        function drop(e) {
+            e.preventDefault();
+            const id = e.dataTransfer.getData('text');
+            const draggableElement = document.getElementById(id);
+            dropArea.appendChild(draggableElement);
+        }
+    </script>
+</body>
+</html>
